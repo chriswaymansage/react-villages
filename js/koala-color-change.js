@@ -1,4 +1,6 @@
 // Village
+const colorsObject = { white: "#FFFFFF", lightGray: "#A6BECF", darkGray: "#819CAF", brown: "#BE845F", navy: "#27354A" }
+
 class Koala extends React.Component {
   render() {
     return <Box colors={ this.props.colors } />;
@@ -11,7 +13,7 @@ class Box extends React.Component {
     return (
       <div className="box">
         {/* Houses */ }
-        <Head color={ this.props.colors.lightGray } />
+        <Head colors={ this.props.colors } />
         <Nose color={ this.props.colors.brown } />
         <HairLeft color={ this.props.colors.lightGray } />
         <HairRight color={ this.props.colors.lightGray } />
@@ -25,8 +27,30 @@ class Box extends React.Component {
 }
 
 class Head extends React.Component {
+
+  state = { color: this.props.colors.darkGray };
+
+  setColorTo = colorToSet => {
+    this.setState({ color: colorToSet });
+  }
+
+  updateColor = () => {
+
+    if (this.state.color === this.props.colors.darkGray)
+    {
+      this.setColorTo(this.props.colors.white);
+    }
+    else
+    {
+      this.setColorTo(this.props.colors.darkGray);
+    }
+  }
+
   render() {
-    return <div style={ { background: this.props.color } } className="head"></div>;
+
+    return (
+      <div onClick={ this.updateColor } style={ { background: this.state.color } } className="head"></div>
+    )
   }
 }
 
@@ -144,7 +168,5 @@ class InnerEarRight extends React.Component {
     return <div className="inner-ear-right"></div>;
   }
 }
-
-const colorsObject = { white: "#FFFFFF", lightGray: "#A6BECF", darkGray: "#819CAF", brown: "#BE845F", navy: "#27354A" }
 
 ReactDOM.render(<Koala colors={ colorsObject } />, document.getElementById("koala"));
